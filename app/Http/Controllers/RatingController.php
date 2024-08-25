@@ -4,23 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Rating;
 use Illuminate\Http\Request;
+use App\Services\RatingService;
+use App\Http\Requests\storeRatingRequest;
+use App\Http\Requests\updateRatingRequest;
+use App\Http\Requests\updateeRatingRequest;
 
 class RatingController extends Controller
 {
+    protected $RatingService;
+
+      /**
+     *set the service to use it in the Controller
+     * @param \App\Services\RatingService $RatingService
+     */
+    public function __construct(RatingService $RatingService)
+    {
+        $this->RatingService = $RatingService;
+    } 
+
+
     /**
-     * Display a listing of the resource.
+     * Summary of index
+     * @return mixed
      */
     public function index()
     {
-        //
+        try{
+                $Ratings = Rating::paginate(); 
+        
+                return $this->RatingService->indexRating($Ratings);
+                }catch(\Exception $e){
+                    return response("something happend :".$e,400);
+            }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    
+    public function store(storeRatingRequest $request)
     {
-        //
+        try{
+            $request->validated();
+          
+            return $this->RatingService->storeRating($request);
+           }catch(\Exception $e)
+           {
+               return response("something happend while store the data : ".$e,400);
+           }
     }
 
     /**
@@ -34,7 +62,7 @@ class RatingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Rating $rating)
+    public function update(updateRatingRequest $request, Rating $rating)
     {
         //
     }

@@ -30,6 +30,17 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response("This Page Does not Excists!!") ; 
             }         
         });
+
+        $exceptions->render(function(ValidationException $w,Request $request){
+            if ($w instanceof ValidationException) 
+            {
+                return response()->json([
+                    'message' => 'The given data was invalid.',
+                    'errors' =>  "Validation Error"
+                ], 422);
+            }
+        });
+        
     })->create();
 
    
