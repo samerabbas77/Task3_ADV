@@ -41,14 +41,7 @@ class RatingController extends Controller
     
     public function store(storeRatingRequest $request)
     {
-        try{
-            $request->validated();
-          
-            return $this->RatingService->storeRating($request);
-           }catch(\Exception $e)
-           {
-               return response("something happend while store the data : ".$e,400);
-           }
+
     }
 
     /**

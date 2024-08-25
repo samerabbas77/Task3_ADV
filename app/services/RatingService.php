@@ -22,20 +22,5 @@ class RatingService
             ]);
     }
 
-    public function storeRating( $request)
-    {
-    // Create a new Rating record
-    $Rating = Rating::create([
-        'review' => $request->review,
-        'rating' => $request->rating,
-        'user_id' => $request->user->id,
-        'movie_id' => $request->movie->id,
-    ]);
-                
-        return response()->json([
-        "Data"      => new RatingResource ($Rating),
-        "message"   =>" Rating  successfully Created",
-        "status"    =>201, 
-        ]);
-    }
+
 }
