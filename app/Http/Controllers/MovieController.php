@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Response;
 use App\Services\MovieService;
 use App\Http\Resources\MovieResource;
+use App\Http\Requests\SortMovieRequest;
 use App\Http\Requests\storeMovieRequest;
 use App\Http\Requests\updateMovieRequest;
-use GuzzleHttp\Psr7\Response;
+use App\Http\Requests\SearchMoviesRequest;
 
 class MovieController extends Controller
 {
@@ -103,5 +105,30 @@ class MovieController extends Controller
             {
                 return response("something happend while Deleting the data : ".$e,400);
             }
+    }
+
+    /**
+     * search Movie by genre OR director
+     * @param \App\Http\Requests\SearchMoviesRequest $request
+     * 
+     */
+    public function search(SearchMoviesRequest $request)
+    {
+        try{
+             $request->validated();
+          
+            return $this->movieService->searchMovie($request);
+        }catch(\Exception $e)
+        {
+            return response("Something happend while Search into the data :".$e,400);
+        }
+    }
+
+
+    public function sort(SortMovieRequest $request)
+    {
+        $request->validated();
+        return $this->movieService->sortMovie($request);
+     
     }
 }

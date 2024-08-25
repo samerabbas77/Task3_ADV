@@ -1,7 +1,8 @@
 <?php
   namespace App\Services;
-  
-  use App\Models\User;
+
+use App\Http\Requests\SortMovieRequest;
+use App\Models\User;
   use App\Models\Movie;
   use App\Http\Resources\MovieResource;
   
@@ -103,5 +104,68 @@
           "status"    =>200,
          ]);
        }
+
+       /**
+        * searchMovie by genre OR director
+        * @param mixed $request
+        * @return mixed|\Illuminate\Http\JsonResponse
+        */
+       public function searchMovie( $request)
+       {
+            // Ensure at least one search parameter is provided
+            if (($request->genre == null) && ($request->director == null)) {
+              return response()->json([
+                  'error' => 'Please provide at least one search parameter: genre or director.'
+              ], 400);
+          }
+
+          // Build the query
+          $query = Movie::query();
+
+          if ($request->filled('genre')) {
+              $query->where('genre', 'like', '%' . $request->genre . '%');
+          }
+
+          if ($request->filled('director')) {
+              $query->where('director', 'like', '%' . $request->director . '%');
+          }
+
+          // Execute the query and get the results
+          $movies = $query->get();
+          
+          if(!empty($movies)) 
+          {
+            return response()->json("There Are No movies By this Search!");
+          }
+          return response()->json($movies);
+    }
+
+    /**
+     *  Show the  Movies sorted by release_year
+     * @param mixed $request
+     * 
+     */
+    public function sortMovie( $request )
+    {
+     
+      if($request->ASC == '1')
+      {
+        $movies = Movie::orderBy('release_year', 'asc')->get(); // For ascending order
+        return response()->json([
+          "Sort Type:" => "ASC",
+          "Movies" =>$movies,
+          
+        ]);
+      }elseif($request->ASC == '0'){
+        $movies = Movie::orderBy('release_year', 'desc')->get(); // For descending order
+        return response()->json([
+           "Sort Type:"  =>"DESC",
+          "Movies" =>$movies,
+         
+        ]);
+      }
+      
+    }
+
     }
 
