@@ -23,12 +23,15 @@ class MovieController extends Controller
     public function __construct(MovieService $movieService)
     {
         $this->movieService = $movieService;
-    }  
-    
+    } 
+
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
+   
     /**
      * Return all the Movie
      * 
-     *
+     *@return mixed
      */
     public function index()
     {
@@ -41,7 +44,9 @@ class MovieController extends Controller
         return response("something happend :".$e,400);
                        }
     }
-
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
+    
     /**
      * Store the movie
      * @param \App\Http\Requests\storeMovieRequest $request
@@ -58,6 +63,8 @@ class MovieController extends Controller
             return response("something happend while store the data : ".$e,400);
         }
     }
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
 
     /**
      * Show single Movie
@@ -67,12 +74,14 @@ class MovieController extends Controller
     public function show(Movie $movie)
     {
         try{
-                $this->movieService->showMovie($movie);
+               return $this->movieService->showMovie($movie);
             }catch(\Exception $e)
     {
         return response("something happend while Shing the Movie : ".$e,400);
     }
     }
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
 
     /**
      * Summary of update
@@ -82,15 +91,17 @@ class MovieController extends Controller
      */
     public function update(updateMovieRequest $request, Movie $movie)
     {
-        try{
-       $request->validated();
+            try{
+        $request->validated();
 
-       return $this->movieService->updateMovie( $movie,$request);
-    }catch(\Exception $e)
-    {
-        return response("something happend while Update the data : ".$e,400);
+        return $this->movieService->updateMovie( $movie,$request);
+        }catch(\Exception $e)
+        {
+            return response("something happend while Update the data : ".$e,400);
+        }
     }
-    }
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
 
     /**
      * Delete a Movie
@@ -106,6 +117,8 @@ class MovieController extends Controller
                 return response("something happend while Deleting the data : ".$e,400);
             }
     }
+    // ------------------------------------------END OF CRUD------------------------------------
+    //-----------------------------------------------------------------------------------------
 
     /**
      * search Movie by genre OR director
@@ -124,7 +137,8 @@ class MovieController extends Controller
         }
     }
 
-
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
     public function sort(SortMovieRequest $request)
     {
         $request->validated();

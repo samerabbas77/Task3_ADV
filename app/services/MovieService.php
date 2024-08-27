@@ -22,7 +22,8 @@ use App\Models\User;
         "status"    =>200,       
         ]);
       }
-
+      // ----------------------------------------------------------------------------------------
+      //-----------------------------------------------------------------------------------------
 
        /**
         * function to store a Movie
@@ -49,6 +50,14 @@ use App\Models\User;
 
        }
 
+      // ----------------------------------------------------------------------------------------
+      //-----------------------------------------------------------------------------------------
+       
+      /**
+        * Show single Movie
+        *@param \App\Models\Movie $movie
+        *@return mixed|\Illuminate\Http\JsonResponse
+        */
        public function showMovie(Movie $movie)
        {
         $data = Movie::find($movie->id);
@@ -59,6 +68,14 @@ use App\Models\User;
         ]);
        }
 
+      // ----------------------------------------------------------------------------------------
+      //-----------------------------------------------------------------------------------------
+      
+      /**
+       * Ipdate a movie
+       * @param \App\Models\Movie $movie, mixed $request
+       * @return mixed|\Illuminate\Http\JsonResponse
+       */
        public function updateMovie(Movie $movie, $request)
        {
           $movie = Movie::findOrFail($movie->id);
@@ -88,8 +105,12 @@ use App\Models\User;
             "status"    =>201, 
           ]);
        }
-       /**
-        * Delet a movie
+
+      // ----------------------------------------------------------------------------------------
+      //-----------------------------------------------------------------------------------------
+      
+      /**
+        * Delete a movie
         * @param \App\Models\Movie $movie
         * @return mixed|\Illuminate\Http\JsonResponse
         */
@@ -104,6 +125,9 @@ use App\Models\User;
           "status"    =>200,
          ]);
        }
+
+       // -------------------------------------------End Of CRUD--------------------------------------
+      //-----------------------------------------------------------------------------------------
 
        /**
         * searchMovie by genre OR director
@@ -140,6 +164,9 @@ use App\Models\User;
           return response()->json($movies);
     }
 
+    // ----------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------
+    
     /**
      *  Show the  Movies sorted by release_year
      * @param mixed $request

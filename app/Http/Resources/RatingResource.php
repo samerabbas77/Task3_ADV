@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class RatingResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class RatingResource extends JsonResource
             'Rating'            =>$this->rating,
             'Review'            =>$this->review,
             'Movie Title'       =>$this->movie->title,
-            'User Name'         =>$this->user->name,
+            'User Name'         =>Auth::user()->name,
           
         ];
     }
