@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class updateRatingRequest extends FormRequest
@@ -11,7 +12,11 @@ class updateRatingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $rating = $this->route('rating'); // Retrieve the Rating instance from the route
+
+        // Check if the authenticated user owns the rating
+        return Auth::check() && Auth::id() == $rating->user_id;
+        
     }
 
     /**
