@@ -43,6 +43,18 @@ class SearchMoviesRequest extends FormRequest
     * @throws \Illuminate\Validation\ValidationException
     */
 
+     
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+
+            'success'   => false,
+            'message'   => 'Filter Validation errors',
+            'data'      => $validator->errors(),
+            'status'    => 400
+
+    ]));
+    }
 
     }
 
